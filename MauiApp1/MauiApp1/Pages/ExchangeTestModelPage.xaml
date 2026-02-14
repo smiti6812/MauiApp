@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.Pages.ExchangeTestModelPage"
+             xmlns:views="clr-namespace:MauiApp1.Pages"
+             Title="ExchangeTestModelPage">
+    <VerticalStackLayout>                
+            <Label 
+            Text="Welcome to .NET MAUI!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" FontSize="24" />
+            <Grid x:Name="TestModelGrid" ColumnDefinitions=".5*, .5*" Margin="5">
+                <views:TestModelView Grid.Column="0" TestModelViewModel="{Binding TestModelViewModelLocal}" />
+                <views:TestModelView Grid.Column="1" TestModelViewModel="{Binding TestModelViewModelWorld}" />
+            </Grid>
+        <AbsoluteLayout ZIndex="1000">
+            <views:AbsolutLayoutDragOverlayView DragOverlayViewModel="{Binding DragOverlayViewModel}"
+               OverlayDistance="{Binding Source={x:Reference TestModelGrid}, Path=Height}"/>
+        </AbsoluteLayout>
+    </VerticalStackLayout>
+</ContentPage>

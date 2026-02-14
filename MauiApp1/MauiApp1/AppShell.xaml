@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MauiApp1.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MauiApp1"
+    xmlns:views="clr-namespace:MauiApp1.Pages"
+    Shell.FlyoutBehavior="Flyout"
+    Title="MauiApp1">
+    <FlyoutItem Title="Domain Records">
+        <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Exchange Test Model's">
+        <ShellContent
+        Title="TestModel"
+        ContentTemplate="{DataTemplate views:ExchangeTestModelPage}" /> 
+    </FlyoutItem>
+</Shell>

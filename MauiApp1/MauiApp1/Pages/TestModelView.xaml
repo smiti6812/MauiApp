@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behavior="clr-namespace:MauiApp1.Utils"
+             xmlns:model="clr-namespace:MauiApp1.Model"
+             x:Class="MauiApp1.Pages.TestModelView">
+    <VerticalStackLayout>
+        <Grid>
+            
+        </Grid>
+        <Label 
+            Text="Welcome to .NET MAUI!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <CollectionView x:Name="TestModelCollectionView"
+            ItemsSource="{Binding TestModelItems}">
+            <CollectionView.EmptyView>
+                <Frame Padding="20" BackgroundColor="LightYellow" HorizontalOptions="Center" VerticalOptions="Center"  IsVisible="{Binding IsItemInPage, Converter={StaticResource BooleanInverseConverter}}">
+                    <Label Text="Drop items here" HorizontalOptions="Center" />
+                    <Frame.Behaviors>
+                        <behavior:DragDropBehavior
+                            SelectedItems="{Binding Path=BindingContext.SelectedItems, Source={x:Reference TestModelCollectionView}}" 
+                            DropCommand="{Binding BindingContext.DropCommand, Source={x:Reference TestModelCollectionView}}" />
+                    </Frame.Behaviors>
+                </Frame>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout>                        
+                        <Grid ColumnDefinitions=".5*, .5*">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding BindingContext.ItemTappedCommand, Source={x:Reference TestModelCollectionView}}" CommandParameter="{Binding .}" />
+                                <PointerGestureRecognizer PointerMoved="OnPointerMoved" />
+                            </Grid.GestureRecognizers>
+                            <Grid.Behaviors>
+                                <behavior:DragDropBehavior
+                                  SelectedItems="{Binding Path=BindingContext.SelectedItems, Source={x:Reference TestModelCollectionView}}" 
+                                DropCommand="{Binding BindingContext.DropCommand, Source={x:Reference TestModelCollectionView}}" />  
+                            </Grid.Behaviors>
+                            
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="Grid" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="BackgroundColor" Value="Gold" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+
+                            <Label Grid.Column="0" Text="{Binding Name}" />
+                        <Label Grid.Column="1" Text="{Binding Age}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentView>
