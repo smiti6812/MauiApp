@@ -52,8 +52,8 @@
                             </Grid.Style>
                             <Label Grid.Column="0" Text="{Binding Name}" />
                             <Label Grid.Column="1" Text="{Binding Age}" />
-                            <Button Grid.Column="2" IsVisible="{Binding IsDetailsVisible,  Converter={StaticResource BooleanInverseConverter}}" Text="{x:Static local:IconFonts.ArrowDown}" FontSize="32" FontFamily="MaterialIcons" Command="{Binding BindingContext.ShowDetailsCommand, Source={x:Reference TestModelCollectionView}}" CommandParameter="{Binding .}" />
-                            <Button Grid.Column="2" IsVisible="{Binding IsDetailsVisible}" Text="{x:Static local:IconFonts.ArrowUp}" FontSize="32" FontFamily="MaterialIcons" Command="{Binding BindingContext.ShowDetailsCommand, Source={x:Reference TestModelCollectionView}}" CommandParameter="{Binding .}" />
+                            <Button Grid.Column="2" IsVisible="{Binding IsDetailsVisible,  Converter={StaticResource BooleanInverseConverter}}" Text="{x:Static local:IconFonts.ArrowDown}" FontSize="32" FontFamily="MaterialIcons" Command="{Binding BindingContext.ShowDetailsCommand, Source={x:Reference TestModelCollectionView}}" CommandParameter="{Binding .}" Margin="2" />
+                            <Button Grid.Column="2" IsVisible="{Binding IsDetailsVisible}" Text="{x:Static local:IconFonts.ArrowUp}" FontSize="32" FontFamily="MaterialIcons" Command="{Binding BindingContext.ShowDetailsCommand, Source={x:Reference TestModelCollectionView}}" CommandParameter="{Binding .}" Margin="2" />
                         </Grid>
                         <Frame Padding="10" BackgroundColor="#f0f0f0" IsVisible="{Binding IsDetailsVisible}">
                             <VerticalStackLayout>
