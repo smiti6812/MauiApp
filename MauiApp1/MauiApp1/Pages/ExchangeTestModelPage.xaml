@@ -13,7 +13,11 @@
                 <views:TestModelView Grid.Column="0" TestModelViewModel="{Binding TestModelViewModelLocal}" />
                 <views:TestModelView Grid.Column="1" TestModelViewModel="{Binding TestModelViewModelWorld}" />
             </Grid>
-        <AbsoluteLayout ZIndex="1000">
+        <AbsoluteLayout ZIndex="4000">
+            <VerticalStackLayout>
+            <Label Text="{Binding DragOverlayViewModel.X}" />
+            <Label Text="{Binding DragOverlayViewModel.Y}" />
+            </VerticalStackLayout>
             <views:AbsolutLayoutDragOverlayView DragOverlayViewModel="{Binding DragOverlayViewModel}"
                OverlayDistance="{Binding Source={x:Reference TestModelGrid}, Path=Height}"/>
         </AbsoluteLayout>

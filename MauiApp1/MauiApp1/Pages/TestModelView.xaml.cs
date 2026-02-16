@@ -1,7 +1,3 @@
-using CommunityToolkit.Mvvm.Messaging;
-
-using MauiApp1.Model;
-
 namespace MauiApp1.Pages;
 
 public partial class TestModelView : ContentView
@@ -25,8 +21,8 @@ public partial class TestModelView : ContentView
 
     private void OnPointerMoved(object sender, Microsoft.Maui.Controls.PointerEventArgs e)
     {
-        var point = e.GetPosition(null);
-        _ = WeakReferenceMessenger.Default.Send(new PointerMovedMessage(point.Value.X, point.Value.Y));
+        //var point = e.GetPosition(null);
+        //_ = WeakReferenceMessenger.Default.Send(new PointerMovedMessage(point.Value.X, point.Value.Y));
     }
 
     private static void OnTestModelViewModelChanged(BindableObject bindable, object oldValue, object newValue)

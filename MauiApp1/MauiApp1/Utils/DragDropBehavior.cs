@@ -70,7 +70,7 @@ namespace MauiApp1.Utils
 
             // With this line for proper line breaks in a Label:
             string joinedItems = string.Join(Environment.NewLine, SelectedItems.Select(item => item?.ToString() ?? string.Empty));
-            WeakReferenceMessenger.Default.Send(new DragMessage { DragText = joinedItems, IsVisible = true });
+            WeakReferenceMessenger.Default.Send(new DragMessage { DragText = joinedItems, IsVisible = true, Count = SelectedItems.Count });
 
 
             //DragOverlayManager.Show(joinedItems);

@@ -1,6 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+
+using MauiApp1.Model;
 
 using Microsoft.UI.Xaml;
 
@@ -22,10 +25,13 @@ namespace MauiApp1.ViewModel
         public Rect overlayBounds;
 
         [ObservableProperty]
-        private bool isVisible = false;
+        private bool isVisible;
 
         [ObservableProperty]
         private int overlayDistance;
+
+        [ObservableProperty]
+        private int count;
 
         public void StartTimer()
         {
@@ -35,15 +41,21 @@ namespace MauiApp1.ViewModel
                 timer.Interval = TimeSpan.FromMilliseconds(10); // ~60 FPS
                 timer.Tick += (s, e) =>
                 {
+                    var widthHeight = Utils.CursorPositionHandling.GetScreenWidthAndHeight();
                     var position = GetCursorPosition();
-                    X = (int)(position.X) - 100;
-                    Y = position.Y;//OverlayDistance - position.Y;
-                    OverlayBounds = new Rect(X, Y, 200, 100);
+                    X = (int)(((double)widthHeight.screenWidth) / 2) - 100;//(int)(position.X) - 100;
+                    int offset = position.Y < 300 ? 300 : 400;
+                    Y = position.Y - (OverlayDistance + offset);//OverlayDistance - position.Y;
+                    OverlayBounds = new Rect(X, Y, 200, (count * 25) + 60);
                 };
             }
             timer.Start();
         }
-        public void StopTimer() => timer.Stop();
+        public void StopTimer()
+        {
+            timer?.Stop();
+            timer = null;
+        }
 
         private static (int X, int Y) GetCursorPosition()
         {
@@ -54,6 +66,29 @@ namespace MauiApp1.ViewModel
 
         [DllImport("user32.dll")]
         private static extern bool GetCursorPos(out POINT lpPoint);
+        internal void OnNavigatedFrom(object? sender, NavigatedFromEventArgs e)
+        {
+            WeakReferenceMessenger.Default.Unregister<DragMessage>(this);
+        }
+        internal void OnNavigatedTo(object? sender, NavigatedToEventArgs e)
+        {
+            IsVisible = false;
+            WeakReferenceMessenger.Default.Register<DragMessage>(this, (r, m) =>
+            {
+                if (m.IsVisible)
+                {
+                    StartTimer();
+                    DragText = m.DragText;
+                    IsVisible = m.IsVisible;
+                    Count = m.Count;
+                }
+                else
+                {
+                    StopTimer();
+                    IsVisible = m.IsVisible;
+                }
+            });
+        }
 
         private struct POINT
         {

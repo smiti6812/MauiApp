@@ -4,5 +4,6 @@
     {
         public string DragText { get; set; }
         public bool IsVisible { get; set; }
+        public int Count { get; set; }
     }
 }

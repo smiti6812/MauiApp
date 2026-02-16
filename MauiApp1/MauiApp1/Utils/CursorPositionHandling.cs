@@ -26,6 +26,13 @@ namespace MauiApp1.Utils
             public int X;
             public int Y;
         }
+
+        public static (int screenWidth, int screenHeight) GetScreenWidthAndHeight()
+        {
+            int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+            int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+            return (screenWidth, screenHeight);
+        }
         public static (bool leftEdge, bool rightEdge, bool topEdge, bool buttomEdge, int X, int Y) IsCursorAtScreenEdge()
         {
             var position = GetCursorPosition();

@@ -9,5 +9,8 @@ public partial class ExchangeTestModelPage : ContentPage
         ArgumentNullException.ThrowIfNull(exchangeTestModelViewModel);
         InitializeComponent();
         BindingContext = exchangeTestModelViewModel;
+        NavigatedTo += exchangeTestModelViewModel.DragOverlayViewModel.OnNavigatedTo;
+        NavigatedFrom += exchangeTestModelViewModel.DragOverlayViewModel.OnNavigatedFrom;
+
     }
 }

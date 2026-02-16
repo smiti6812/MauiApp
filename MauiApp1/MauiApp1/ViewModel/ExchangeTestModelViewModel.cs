@@ -1,7 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
+﻿
 
-using MauiApp1.Model;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 using Microsoft.UI.Xaml;
 
@@ -16,32 +15,23 @@ namespace MauiApp1.ViewModel
         [ObservableProperty]
         private TestModelViewModel testModelViewModelWorld;
 
-        [ObservableProperty]
         private DragOverlayViewModel dragOverlayViewModel;
+        public DragOverlayViewModel DragOverlayViewModel
+        {
+            get => dragOverlayViewModel;
+            set
+            {
+                SetProperty(ref dragOverlayViewModel, value);
+            }
+        }
 
         public ExchangeTestModelViewModel()
         {
             TestModelViewModelLocal = new TestModelViewModel();
             TestModelViewModelWorld = new TestModelViewModel();
             TestModelViewModelWorld.TestModelItems = new();
-
             DragOverlayViewModel = new DragOverlayViewModel();
             DragOverlayViewModel.IsVisible = false;
-            WeakReferenceMessenger.Default.Register<DragMessage>(this, (r, m) =>
-            {
-                if (m.IsVisible)
-                {
-                    DragOverlayViewModel = DragOverlayViewModel ?? new DragOverlayViewModel();
-                    DragOverlayViewModel.StartTimer();
-                    DragOverlayViewModel.DragText = m.DragText;
-                    DragOverlayViewModel.IsVisible = m.IsVisible;
-                }
-                else
-                {
-                    DragOverlayViewModel.StopTimer();
-                    DragOverlayViewModel.IsVisible = m.IsVisible;
-                }
-            });
         }
     }
 }

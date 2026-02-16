@@ -6,11 +6,11 @@ namespace MauiApp1.Pages;
 public partial class AbsolutLayoutDragOverlayView : ContentView
 {
     public static readonly BindableProperty DragOverlayViewModelProperty =
-    BindableProperty.Create(
-    nameof(DragOverlayViewModel),
-    typeof(object),
-    typeof(AbsolutLayoutDragOverlayView),
-    propertyChanged: OnDragOverlayViewModelChanged);
+        BindableProperty.Create(
+        nameof(DragOverlayViewModel),
+        typeof(object),
+        typeof(AbsolutLayoutDragOverlayView),
+        propertyChanged: OnDragOverlayViewModelChanged);
 
     public object DragOverlayViewModel
     {
