@@ -13,6 +13,18 @@ namespace MauiApp1.Model
         [ObservableProperty]
         private bool isSelected;
 
+        [ObservableProperty]
+        private string description;
+
+        [ObservableProperty]
+        private string address;
+
+        [ObservableProperty]
+        private string email;
+
+        [ObservableProperty]
+        private bool isDetailsVisible = false;
+
         public override string ToString() => $"Name: {Name} (Age: {Age})";
 
     }

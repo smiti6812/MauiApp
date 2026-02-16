@@ -3,10 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behavior="clr-namespace:MauiApp1.Utils"
              xmlns:model="clr-namespace:MauiApp1.Model"
+              xmlns:local="clr-namespace:MauiApp1.Utils"
              x:Class="MauiApp1.Pages.TestModelView">
+    <ContentView.Resources>
+        <local:BooleanInverseConverter x:Key="BooleanInverseConverter" />
+    </ContentView.Resources>
     <VerticalStackLayout>
         <Grid>
-            
+
         </Grid>
         <Label 
             Text="Welcome to .NET MAUI!"
@@ -26,8 +30,8 @@
             </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <VerticalStackLayout>                        
-                        <Grid ColumnDefinitions=".5*, .5*">
+                    <VerticalStackLayout>
+                        <Grid ColumnDefinitions=".5*, .5*, Auto">
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding BindingContext.ItemTappedCommand, Source={x:Reference TestModelCollectionView}}" CommandParameter="{Binding .}" />
                                 <PointerGestureRecognizer PointerMoved="OnPointerMoved" />
@@ -35,9 +39,8 @@
                             <Grid.Behaviors>
                                 <behavior:DragDropBehavior
                                   SelectedItems="{Binding Path=BindingContext.SelectedItems, Source={x:Reference TestModelCollectionView}}" 
-                                DropCommand="{Binding BindingContext.DropCommand, Source={x:Reference TestModelCollectionView}}" />  
+                                DropCommand="{Binding BindingContext.DropCommand, Source={x:Reference TestModelCollectionView}}" />
                             </Grid.Behaviors>
-                            
                             <Grid.Style>
                                 <Style TargetType="Grid">
                                     <Style.Triggers>
@@ -47,10 +50,28 @@
                                     </Style.Triggers>
                                 </Style>
                             </Grid.Style>
-
                             <Label Grid.Column="0" Text="{Binding Name}" />
-                        <Label Grid.Column="1" Text="{Binding Age}" />
+                            <Label Grid.Column="1" Text="{Binding Age}" />
+                            <Button Grid.Column="2" IsVisible="{Binding IsDetailsVisible,  Converter={StaticResource BooleanInverseConverter}}" Text="{x:Static local:IconFonts.ArrowDown}" FontSize="32" FontFamily="MaterialIcons" Command="{Binding BindingContext.ShowDetailsCommand, Source={x:Reference TestModelCollectionView}}" CommandParameter="{Binding .}" />
+                            <Button Grid.Column="2" IsVisible="{Binding IsDetailsVisible}" Text="{x:Static local:IconFonts.ArrowUp}" FontSize="32" FontFamily="MaterialIcons" Command="{Binding BindingContext.ShowDetailsCommand, Source={x:Reference TestModelCollectionView}}" CommandParameter="{Binding .}" />
                         </Grid>
+                        <Frame Padding="10" BackgroundColor="#f0f0f0" IsVisible="{Binding IsDetailsVisible}">
+                            <VerticalStackLayout>
+                                <Label Text="Details:" FontAttributes="Bold" />
+                                <HorizontalStackLayout Spacing="10">
+                                    <Label Text="Address:" />
+                                    <Label Text="{Binding Address}" />
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Spacing="10">
+                                    <Label Text="Email:" />
+                                    <Label Text="{Binding Email}" />
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Spacing="10">
+                                    <Label Text="Description" />
+                                    <Label Text="{Binding Description}" />
+                                </HorizontalStackLayout>                          
+                            </VerticalStackLayout>
+                        </Frame>
                     </VerticalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

@@ -12,15 +12,15 @@ namespace MauiApp1.ViewModel
     {
         private int? lastSelectedIndex;
         public ObservableCollection<TestModel> TestModelItems { get; set; } =
-        new()
-        {
-                    new TestModel { Name = "Alpha", Age = 32},
-                    new TestModel { Name = "Bravo", Age = 23 },
-                    new TestModel { Name = "Charlie", Age = 44 },
-                    new TestModel { Name = "Delta", Age = 52 },
-                    new TestModel { Name = "Maci", Age = 63 },
-                    new TestModel { Name = "Laci", Age = 15 }
-        };
+            new()
+            {
+                new TestModel { Name = "Alpha", Age = 32, Address = "123 Alpha St", Description = "First entry", Email = "alpha@example.com" },
+                new TestModel { Name = "Bravo", Age = 23, Address = "456 Bravo Ave", Description = "Second entry", Email = "bravo@example.com" },
+                new TestModel { Name = "Charlie", Age = 44, Address = "789 Charlie Blvd", Description = "Third entry", Email = "charlie@example.com" },
+                new TestModel { Name = "Delta", Age = 52, Address = "321 Delta Rd", Description = "Fourth entry", Email = "delta@example.com" },
+                new TestModel { Name = "Maci", Age = 63, Address = "654 Maci Ln", Description = "Fifth entry", Email = "maci@example.com" },
+                new TestModel { Name = "Laci", Age = 15, Address = "987 Laci Ct", Description = "Sixth entry", Email = "laci@example.com" }
+            };
 
 
         private ObservableCollection<object> _selectedItems;
@@ -32,11 +32,18 @@ namespace MauiApp1.ViewModel
 
         public ICommand DropCommand { get; }
         public ICommand ItemTappedCommand { get; }
+        public ICommand ShowDetailsCommand { get; }
         public TestModelViewModel()
         {
             DropCommand = new Command<DropEventArgs>(OnDrop);
             ItemTappedCommand = new RelayCommand<TestModel>(OnItemTapped);
             SelectedItems = new();
+            ShowDetailsCommand = new RelayCommand<TestModel>(ShowDetails);
+        }
+
+        private void ShowDetails(TestModel model)
+        {
+            model.IsDetailsVisible = !model.IsDetailsVisible;
         }
 
         private void OnItemTapped(TestModel tappedItem)
@@ -113,6 +120,9 @@ namespace MauiApp1.ViewModel
                     {
                         Name = item.Name,
                         Age = item.Age,
+                        Address = item.Address,
+                        Email = item.Email,
+                        Description = item.Description,
                         IsSelected = false
                     };
                     TestModelItems.Add(newItem);
