@@ -1,14 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-using CommunityToolkit.Mvvm.Messaging;
-
 using MauiApp1.Model;
 
 namespace MauiApp1.Utils
 {
     public partial class DragDropBehavior : Behavior<View>
     {
+
         public static readonly BindableProperty SelectedItemsProperty =
         BindableProperty.Create(
             nameof(SelectedItems),
@@ -35,7 +34,21 @@ namespace MauiApp1.Utils
             set => SetValue(DropCommandProperty, value);
         }
 
+        public DragMessage DragMessage
+        {
+            get => (DragMessage)GetValue(DragMessageProperty);
+            set => SetValue(DragMessageProperty, value);
+        }
+
         private static object? dragSourceItem;
+        public static readonly BindableProperty DragMessageProperty =
+            BindableProperty.Create(
+                nameof(DragMessage),
+                typeof(DragMessage),
+                typeof(DragDropBehavior),
+                default(DragMessage),
+                BindingMode.TwoWay
+                );
 
         protected override void OnAttachedTo(View bindable)
         {
@@ -54,7 +67,7 @@ namespace MauiApp1.Utils
             }
         }
 
-        private void OnDragStarting(object sender, Microsoft.Maui.Controls.DragStartingEventArgs e)
+        private void OnDragStarting(object? sender, Microsoft.Maui.Controls.DragStartingEventArgs e)
         {
             if (SelectedItems == null || SelectedItems.Count == 0)
             {
@@ -70,16 +83,31 @@ namespace MauiApp1.Utils
 
             // With this line for proper line breaks in a Label:
             string joinedItems = string.Join(Environment.NewLine, SelectedItems.Select(item => item?.ToString() ?? string.Empty));
-            WeakReferenceMessenger.Default.Send(new DragMessage { DragText = joinedItems, IsVisible = true, Count = SelectedItems.Count });
+            int count = SelectedItems.Count;
+            if (DragMessage is not null)
+            {
+                DragMessage.DragText = joinedItems;
+                DragMessage.IsVisible = true;
+                DragMessage.Count = count;
+            }
+            //WeakReferenceMessenger.Default.Send(new DragMessage { DragText = joinedItems, IsVisible = true, Count = SelectedItems.Count });
 
 
             //DragOverlayManager.Show(joinedItems);
             SelectedItems.Clear();
         }
 
-        private void OnDrop(object sender, DropEventArgs e)
+        private void OnDrop(object? sender, DropEventArgs e)
         {
-            WeakReferenceMessenger.Default.Send(new DragMessage { DragText = string.Empty, IsVisible = false });
+            if (DragMessage is not null)
+            {
+                DragMessage.DragText = string.Empty;
+                DragMessage.IsVisible = false;
+                DragMessage.Count = 0;
+            }
+
+            //DragMessage = new DragMessage { DragText = string.Empty, IsVisible = false };
+            //WeakReferenceMessenger.Default.Send(new DragMessage { DragText = string.Empty, IsVisible = false });
             if (DropCommand?.CanExecute(e) == true)
             {
                 DragOverlayManager.Hide();

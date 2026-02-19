@@ -22,7 +22,7 @@
                 <Frame Padding="20" BackgroundColor="LightYellow" HorizontalOptions="Center" VerticalOptions="Center"  IsVisible="{Binding IsItemInPage, Converter={StaticResource BooleanInverseConverter}}">
                     <Label Text="Drop items here" HorizontalOptions="Center" />
                     <Frame.Behaviors>
-                        <behavior:DragDropBehavior
+                        <behavior:DragDropBehavior DragMessage="{Binding BindingContext.DragMessage, Mode=TwoWay, Source={x:Reference TestModelCollectionView}}"
                             SelectedItems="{Binding Path=BindingContext.SelectedItems, Source={x:Reference TestModelCollectionView}}" 
                             DropCommand="{Binding BindingContext.DropCommand, Source={x:Reference TestModelCollectionView}}" />
                     </Frame.Behaviors>
@@ -38,6 +38,7 @@
                             </Grid.GestureRecognizers>
                             <Grid.Behaviors>
                                 <behavior:DragDropBehavior
+                                    DragMessage="{Binding BindingContext.DragMessage, Mode=TwoWay, Source={x:Reference TestModelCollectionView}}"
                                   SelectedItems="{Binding Path=BindingContext.SelectedItems, Source={x:Reference TestModelCollectionView}}" 
                                 DropCommand="{Binding BindingContext.DropCommand, Source={x:Reference TestModelCollectionView}}" />
                             </Grid.Behaviors>

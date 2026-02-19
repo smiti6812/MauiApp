@@ -18,7 +18,7 @@
             <Label Text="{Binding DragOverlayViewModel.X}" />
             <Label Text="{Binding DragOverlayViewModel.Y}" />
             </VerticalStackLayout>
-            <views:AbsolutLayoutDragOverlayView DragOverlayViewModel="{Binding DragOverlayViewModel}"
+            <views:AbsolutLayoutDragOverlayView DragOverlayViewModel="{Binding DragOverlayViewModel, Mode=TwoWay}"
                OverlayDistance="{Binding Source={x:Reference TestModelGrid}, Path=Height}"/>
         </AbsoluteLayout>
     </VerticalStackLayout>

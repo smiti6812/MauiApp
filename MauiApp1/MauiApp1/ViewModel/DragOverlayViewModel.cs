@@ -1,7 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 
 using MauiApp1.Model;
 
@@ -29,6 +28,9 @@ namespace MauiApp1.ViewModel
 
         [ObservableProperty]
         private int overlayDistance;
+
+        [ObservableProperty]
+        private DragMessage dragMessage;
 
         [ObservableProperty]
         private int count;
@@ -68,11 +70,12 @@ namespace MauiApp1.ViewModel
         private static extern bool GetCursorPos(out POINT lpPoint);
         internal void OnNavigatedFrom(object? sender, NavigatedFromEventArgs e)
         {
-            WeakReferenceMessenger.Default.Unregister<DragMessage>(this);
+            //WeakReferenceMessenger.Default.Unregister<DragMessage>(this);
         }
         internal void OnNavigatedTo(object? sender, NavigatedToEventArgs e)
         {
             IsVisible = false;
+            /*
             WeakReferenceMessenger.Default.Register<DragMessage>(this, (r, m) =>
             {
                 if (m.IsVisible)
@@ -88,6 +91,27 @@ namespace MauiApp1.ViewModel
                     IsVisible = m.IsVisible;
                 }
             });
+            */
+        }
+
+        internal void OnDragMessageIsVisibleChanged(object? sender, DragMessage msg)
+        {
+            IsVisible = msg.IsVisible;
+            DragMessage = msg;
+            if (IsVisible)
+            {
+                StartTimer();
+                if (!string.IsNullOrWhiteSpace(msg.DragText))
+                {
+                    DragText = DragMessage.DragText;
+                    IsVisible = DragMessage.IsVisible;
+                    Count = DragMessage.Count;
+                }
+            }
+            else
+            {
+                StopTimer();
+            }
         }
 
         private struct POINT

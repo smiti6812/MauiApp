@@ -1,9 +1,16 @@
-﻿namespace MauiApp1.Model
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace MauiApp1.Model
 {
-    public class DragMessage
+    public partial class DragMessage : ObservableObject
     {
-        public string DragText { get; set; }
-        public bool IsVisible { get; set; }
-        public int Count { get; set; }
+        [ObservableProperty]
+        private string dragText;
+
+        [ObservableProperty]
+        private bool isVisible;
+
+        [ObservableProperty]
+        private int count;
     }
 }

@@ -10,7 +10,7 @@
         <VerticalStackLayout>
             <Label Text="To Be Copied..." HorizontalOptions="Center" FontSize="12" Margin="5" />
             <Label x:Name="DragOverlayLabel"
-                    Text="{Binding DragText}"
+                    Text="{Binding DragText, Mode=TwoWay}"
                     BackgroundColor="LightYellow"
                     TextColor="Black"                    
                     FontSize="12"/>

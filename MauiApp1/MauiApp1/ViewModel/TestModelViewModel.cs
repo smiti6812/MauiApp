@@ -11,6 +11,9 @@ namespace MauiApp1.ViewModel
     public partial class TestModelViewModel : ObservableObject
     {
         private int? lastSelectedIndex;
+
+        [ObservableProperty]
+        private DragMessage dragMessage;
         public ObservableCollection<TestModel> TestModelItems { get; set; } =
             new()
             {
@@ -33,12 +36,19 @@ namespace MauiApp1.ViewModel
         public ICommand DropCommand { get; }
         public ICommand ItemTappedCommand { get; }
         public ICommand ShowDetailsCommand { get; }
-        public TestModelViewModel()
+        public TestModelViewModel(DragMessage dragMessage)
         {
+            DragMessage = dragMessage;
             DropCommand = new Command<DropEventArgs>(OnDrop);
             ItemTappedCommand = new RelayCommand<TestModel>(OnItemTapped);
             SelectedItems = new();
             ShowDetailsCommand = new RelayCommand<TestModel>(ShowDetails);
+            DragMessage.PropertyChanged += DragMessage_PropertyChanged;
+        }
+
+        private void DragMessage_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+
         }
 
         private void ShowDetails(TestModel model)
